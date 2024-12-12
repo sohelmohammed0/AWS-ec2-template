@@ -1,33 +1,52 @@
 variable "region" {
-  description = "The AWS region to create resources in"
-  default     = "ap-south-1"
+  description = "AWS region to deploy the instances"
+  default     = "us-east-1"
+}
+
+variable "ami_id" {
+  description = "AMI ID to use for the EC2 instances"
 }
 
 variable "instance_type" {
-  description = "The type of instance to use"
+  description = "Instance type"
   default     = "t2.micro"
 }
 
-variable "ami" {
-  description = "The AMI to use for the instance"
-  default     = "ami-0522ab6e1ddcc7055"
-}
-
 variable "key_name" {
-  description = "The name of the SSH key pair"
-  default     = "dock.pem"
+  description = "Key pair name for SSH access"
 }
 
-variable "ssh_user" {
-  description = "The SSH user to connect to the instance"
-  default     = "ubuntu"
+variable "allowed_ssh_ips" {
+  description = "List of IPs allowed to SSH"
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
+}
+
+variable "instance_count" {
+  description = "Number of EC2 instances to create"
+  default     = 1
 }
 
 variable "tags" {
-  description = "A map of tags to assign to the resources"
+  description = "Additional tags to apply to resources"
   type        = map(string)
-  default = {
-    Name        = "Terraform-EC2"
-    Environment = "Development"
-  }
+  default     = {}
+}
+
+variable "allocate_eips" {
+  description = "Allocate Elastic IPs for instances"
+  type        = bool
+  default     = false
+}
+
+variable "ssh_user" {
+  description = "The SSH username for connecting to the EC2 instance"
+  type        = string
+  default     = "ubuntu"  # Default for Ubuntu AMI
+}
+
+variable "instance_name" {
+  description = "Name tag for the EC2 instance"
+  type        = string
+  default     = "Terraform EC2"
 }
